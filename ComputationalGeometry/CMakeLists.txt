@@ -19,33 +19,31 @@ set(PROJECT_SOURCES
         MainWindow.cpp
         MainWindow.h
         MainWindow.ui
+
         CustomQt/CustomGraphicsView.h
         CustomQt/CustomGraphicsView.cpp
         CustomQt/CustomGraphicsScene.h
         CustomQt/CustomGraphicsScene.cpp
+        CustomQt/LineListModel.h
+        CustomQt/LineListModel.cpp
+
+        Dialogs/AddLineDialog.h
+        Dialogs/AddLineDialog.cpp
+        Dialogs/AddLineDialog.ui
 )
+
+include_directories(${PROJECT_SOURCE_DIR}/CustomQt)
+include_directories(${PROJECT_SOURCE_DIR}/Dialogs)
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(ComputationalGeometry
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
     )
-# Define target properties for Android with Qt 6 as:
-#    set_property(TARGET ComputationalGeometry APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
-#                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
-# For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
 else()
-    if(ANDROID)
-        add_library(ComputationalGeometry SHARED
-            ${PROJECT_SOURCES}
-        )
-# Define properties for Android with Qt 5 after find_package() calls as:
-#    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
-    else()
-        add_executable(ComputationalGeometry
-            ${PROJECT_SOURCES}
-        )
-    endif()
+    add_executable(ComputationalGeometry
+        ${PROJECT_SOURCES}
+    )
 endif()
 
 target_link_libraries(ComputationalGeometry PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)

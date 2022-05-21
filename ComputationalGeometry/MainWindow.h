@@ -1,7 +1,14 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+// Custom
+#include "LineListModel.h"
+
+// Qt
 #include <QMainWindow>
+
+class CustomGraphicsScene;
+class MainWindowPrivate;
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -15,7 +22,13 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+signals:
+    void lineAdded(QLine line);
+
+private slots:
+    void on_newLineBtn_clicked();
 private:
-    Ui::MainWindow *ui;
+    std::unique_ptr<MainWindowPrivate> d;
+    std::unique_ptr<Ui::MainWindow> ui;
 };
 #endif // MAINWINDOW_H
