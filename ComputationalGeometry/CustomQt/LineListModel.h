@@ -3,10 +3,12 @@
 
 #include <QAbstractListModel>
 
+class LineList;
+
 class LineListModel : public QAbstractListModel
 {
 public:
-    LineListModel(std::vector<QLine>& lines);
+    LineListModel(LineList& lines);
 
     // QAbstractItemModel
     int rowCount(const QModelIndex&) const final;
@@ -16,7 +18,7 @@ public:
 public slots:
     void addLine(const QLine& line);
 private:
-    std::vector<QLine>& lines;
+    LineList& lines;
 };
 
 #endif // LINELISTMODEL_H

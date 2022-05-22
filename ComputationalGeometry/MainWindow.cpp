@@ -9,12 +9,15 @@
 #include "CustomGraphicsScene.h"
 #include "AddLineDialog.h"
 
+// Utils
+#include "LineList.h"
+
 // Qt
 #include <QGraphicsItem>
 
 struct MainWindowPrivate
 {
-    std::vector<QLine> lines;
+    LineList lines;
     LineListModel lineListModel{lines};
     CustomGraphicsScene scene;
 };
