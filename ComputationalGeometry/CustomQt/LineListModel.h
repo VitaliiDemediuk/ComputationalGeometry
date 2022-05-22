@@ -11,16 +11,20 @@ class LineListModel : public QAbstractListModel
 public:
     explicit LineListModel(LineList& lines) noexcept;
 
+    void setLines(LineList lines);
+
     // QAbstractItemModel
     int rowCount(const QModelIndex&) const final;
     int columnCount(const QModelIndex&) const final;
     QVariant data(const QModelIndex &index, int role) const final;
 
 signals:
-    void lineAdded();
+    void linesChanged();
 
 public slots:
     void addLine(const QLine& line);
+    void addLines(const LineList& lines);
+
 private:
     LineList& lines;
 };

@@ -27,6 +27,7 @@ signals:
 
 private slots:
     void on_newLineBtn_clicked();
+    void on_loadLinesTxt_triggered();
 private:
     std::unique_ptr<MainWindowPrivate> d;
     std::unique_ptr<Ui::MainWindow> ui;

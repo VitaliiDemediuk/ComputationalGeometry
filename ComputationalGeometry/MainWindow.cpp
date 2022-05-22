@@ -2,7 +2,7 @@
 #include "./ui_MainWindow.h"
 
 // STL
-#include <iostream>
+#include <fstream>
 #include <vector>
 
 // Custom
@@ -14,6 +14,8 @@
 
 // Qt
 #include <QGraphicsItem>
+#include <QFileDialog>
+#include <QMessageBox>
 
 struct MainWindowPrivate
 {
@@ -34,7 +36,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(this, &MainWindow::lineAdded, &d->lineListModel, &LineListModel::addLine);
 
-    connect(&d->lineListModel, &LineListModel::lineAdded, [this] () {
+    connect(&d->lineListModel, &LineListModel::linesChanged, [this] () {
         d->scene.reset();
     });
 }
@@ -52,3 +54,20 @@ void MainWindow::on_newLineBtn_clicked()
     }
 }
 
+void MainWindow::on_loadLinesTxt_triggered()
+{
+    const auto file = QFileDialog::getOpenFileName(this, "Text file", "", "Text file (*.txt)");
+    std::ifstream fin{std::filesystem::path{file.toStdWString()}};
+    if (!fin.is_open()) {
+        QMessageBox::critical(this, "File error", "Cannot open the file.");
+        return;
+    }
+
+    LineList newLines;
+    while (!fin.eof()) {
+        int x1, y1, x2, y2;
+        fin >> x1 >> y1 >> x2 >> y2;
+        newLines.add({x1, y1, x2, y2});
+    }
+    d->lineListModel.setLines(std::move(newLines));
+}

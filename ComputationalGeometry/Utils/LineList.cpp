@@ -60,6 +60,18 @@ void LineList::add(const QLine& line)
     refreshRect(line);
 }
 
+void LineList::add(const LineList& lines)
+{
+    const size_t newSize = fLines.size() + lines.fLines.size();
+    if (newSize > fLines.capacity()) {
+        fLines.reserve(newSize);
+    }
+    for (const auto& line : lines.fLines) {
+        fLines.push_back(line);
+    }
+    refreshRect(lines);
+}
+
 void LineList::refreshRect() noexcept
 {
     fRect = Rect{};
@@ -74,6 +86,14 @@ void LineList::refreshRect(const QLine& line) noexcept
     fRect.maxY = std::max(fRect.maxY, std::max(line.y1(), line.y2()));
     fRect.minX = std::min(fRect.minX, std::min(line.x1(), line.x2()));
     fRect.minY = std::min(fRect.minY, std::min(line.y1(), line.y2()));
+}
+
+void LineList::refreshRect(const LineList& line) noexcept
+{
+    fRect.maxX = std::max(fRect.maxX, line.fRect.maxX);
+    fRect.maxY = std::max(fRect.maxY, line.fRect.maxY);
+    fRect.minX = std::min(fRect.minX, line.fRect.minX);
+    fRect.minY = std::min(fRect.minY, line.fRect.minY);
 }
 
 auto LineList::begin() noexcept -> Iterator

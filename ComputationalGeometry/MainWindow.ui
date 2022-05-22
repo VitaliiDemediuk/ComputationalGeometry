@@ -76,8 +76,26 @@
      <height>22</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <widget class="QMenu" name="menuOpen_file">
+     <property name="title">
+      <string>Open file</string>
+     </property>
+     <addaction name="loadLinesTxt"/>
+    </widget>
+    <addaction name="menuOpen_file"/>
+   </widget>
+   <addaction name="menuFile"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="loadLinesTxt">
+   <property name="text">
+    <string>txt</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>

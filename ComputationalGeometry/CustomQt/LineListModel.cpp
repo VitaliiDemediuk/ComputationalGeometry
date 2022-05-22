@@ -1,4 +1,5 @@
 #include "LineListModel.h"
+#include <iostream>
 
 // Custom
 #include "LineList.h"
@@ -14,7 +15,23 @@ void LineListModel::addLine(const QLine& line)
     beginResetModel();
     lines.add(line);
     endResetModel();
-    emit lineAdded();
+    emit linesChanged();
+}
+
+void LineListModel::addLines(const LineList& newLines)
+{
+    beginResetModel();
+    lines.add(newLines);
+    endResetModel();
+    emit linesChanged();
+}
+
+void LineListModel::setLines(LineList newLines)
+{
+    beginResetModel();
+    lines = std::move(newLines);
+    endResetModel();
+    emit linesChanged();
 }
 
 int LineListModel::rowCount(const QModelIndex &parent) const

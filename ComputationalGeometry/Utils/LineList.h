@@ -41,6 +41,7 @@ public:
     size_t count() const noexcept;
 
     void add(const QLine& line);
+    void add(const LineList& lines);
 
     // iterators
     Iterator begin() noexcept;
@@ -50,6 +51,7 @@ public:
 private:
     void refreshRect() noexcept;
     void refreshRect(const QLine& line) noexcept;
+    void refreshRect(const LineList& line) noexcept;
 
     constexpr static int MAX_VALUE = std::numeric_limits<int>::max();
     constexpr static int MIN_VALUE = std::numeric_limits<int>::min();
