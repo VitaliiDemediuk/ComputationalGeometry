@@ -3,12 +3,21 @@
 
 #include <QGraphicsScene>
 
+class LineList;
+
 class CustomGraphicsScene : public QGraphicsScene
 {
     using Super = QGraphicsScene;
     using This  = CustomGraphicsScene;
 public:
-    using Super::Super;
+
+    explicit CustomGraphicsScene(LineList& lines);
+
+public slots:
+    void reset();
+
+private:
+    LineList& lines;
 };
 
 #endif // CUSTOMGRAPHICSSCENE_H

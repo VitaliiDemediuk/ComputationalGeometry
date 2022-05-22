@@ -1,9 +1,12 @@
 #include "LineListModel.h"
 
-// Qt
+// Custom
 #include "LineList.h"
 
-LineListModel::LineListModel(LineList& lines)
+// Qt
+#include <QLine>
+
+LineListModel::LineListModel(LineList& lines) noexcept
     : lines{lines} {}
 
 void LineListModel::addLine(const QLine& line)
@@ -11,6 +14,7 @@ void LineListModel::addLine(const QLine& line)
     beginResetModel();
     lines.add(line);
     endResetModel();
+    emit lineAdded();
 }
 
 int LineListModel::rowCount(const QModelIndex &parent) const
@@ -27,7 +31,7 @@ QVariant LineListModel::data(const QModelIndex& index, int role) const
 {
     const auto row = index.row();
     if (role == Qt::DisplayRole) {
-        const auto line = lines.at(row);
+        const auto& line = lines.at(row);
         return QString {"(%1, %2) (%3, %4)"}
                       .arg(line.x1())
                       .arg(line.y1())

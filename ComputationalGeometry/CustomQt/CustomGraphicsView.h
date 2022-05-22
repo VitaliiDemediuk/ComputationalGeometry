@@ -5,10 +5,12 @@
 
 class CustomGraphicsView : public QGraphicsView
 {
+    Q_OBJECT
+
     using Super = QGraphicsView;
     using This  = CustomGraphicsView;
 public:
-    using Super::Super;
+    explicit CustomGraphicsView(QWidget* parent);
 };
 
 #endif // CUSTOMGRAPHICSVIEW_H

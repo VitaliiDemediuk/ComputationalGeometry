@@ -7,13 +7,17 @@ class LineList;
 
 class LineListModel : public QAbstractListModel
 {
+    Q_OBJECT
 public:
-    LineListModel(LineList& lines);
+    explicit LineListModel(LineList& lines) noexcept;
 
     // QAbstractItemModel
     int rowCount(const QModelIndex&) const final;
     int columnCount(const QModelIndex&) const final;
     QVariant data(const QModelIndex &index, int role) const final;
+
+signals:
+    void lineAdded();
 
 public slots:
     void addLine(const QLine& line);

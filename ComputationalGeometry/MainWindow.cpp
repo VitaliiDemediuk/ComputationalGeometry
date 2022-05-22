@@ -19,7 +19,7 @@ struct MainWindowPrivate
 {
     LineList lines;
     LineListModel lineListModel{lines};
-    CustomGraphicsScene scene;
+    CustomGraphicsScene scene{lines};
 };
 
 MainWindow::MainWindow(QWidget *parent)
@@ -33,6 +33,10 @@ MainWindow::MainWindow(QWidget *parent)
     ui->graphicsView->setScene(&d->scene);
 
     connect(this, &MainWindow::lineAdded, &d->lineListModel, &LineListModel::addLine);
+
+    connect(&d->lineListModel, &LineListModel::lineAdded, [this] () {
+        d->scene.reset();
+    });
 }
 
 MainWindow::~MainWindow() = default;

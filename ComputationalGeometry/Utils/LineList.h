@@ -2,7 +2,10 @@
 #define LINELIST_H
 
 #include <vector>
-#include <QLine>
+#include <limits>
+
+class QRect;
+class QLine;
 
 constexpr static int MAX_VALUE = std::numeric_limits<int>::max();
 constexpr static int MIN_VALUE = std::numeric_limits<int>::min();
@@ -15,6 +18,13 @@ struct Rect {
 
     bool operator==(const Rect&) const noexcept = default;
     bool valid() const noexcept;
+    QRect toQRect() const noexcept;
+
+    int width() const noexcept;
+    int height() const noexcept;
+
+    double centerX() const noexcept;
+    double centerY() const noexcept;
 };
 
 
@@ -27,7 +37,7 @@ public:
     using ConstIterator = LinesList::const_iterator;
 
     const QLine& at(size_t index) const noexcept;
-    const Rect& rect(size_t index) const noexcept;
+    const Rect& rect() const noexcept;
     size_t count() const noexcept;
 
     void add(const QLine& line);

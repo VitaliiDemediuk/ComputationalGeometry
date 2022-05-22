@@ -1,11 +1,40 @@
 #include "LineList.h"
 
+// Qt
+#include <QLine>
+#include <QRect>
+
 ////////// Rect ///////////////////////////////////////////////////////////////
 
 bool Rect::valid() const noexcept
 {
     constexpr static Rect defaultRect;
     return (*this) != defaultRect;
+}
+
+QRect Rect::toQRect() const noexcept
+{
+    return {minX, minY, maxX, maxY};
+}
+
+int Rect::width() const noexcept
+{
+    return maxX - minX;
+}
+
+int Rect::height() const noexcept
+{
+    return maxY - minY;
+}
+
+double Rect::centerX() const noexcept
+{
+    return (maxX + minX) / 2.;
+}
+
+double Rect::centerY() const noexcept
+{
+    return (maxY + minY) / 2.;
 }
 
 ////////// LineList ///////////////////////////////////////////////////////////
@@ -15,7 +44,7 @@ const QLine& LineList::at(size_t index) const noexcept
     return fLines[index];
 }
 
-const Rect& LineList::rect(size_t index) const noexcept
+const Rect& LineList::rect() const noexcept
 {
     return fRect;
 }
@@ -43,8 +72,8 @@ void LineList::refreshRect(const QLine& line) noexcept
 {
     fRect.maxX = std::max(fRect.maxX, std::max(line.x1(), line.x2()));
     fRect.maxY = std::max(fRect.maxY, std::max(line.y1(), line.y2()));
-    fRect.minX = std::min(fRect.minX, std::max(line.x1(), line.x2()));
-    fRect.minY = std::min(fRect.minY, std::max(line.y1(), line.y2()));
+    fRect.minX = std::min(fRect.minX, std::min(line.x1(), line.x2()));
+    fRect.minY = std::min(fRect.minY, std::min(line.y1(), line.y2()));
 }
 
 auto LineList::begin() noexcept -> Iterator
