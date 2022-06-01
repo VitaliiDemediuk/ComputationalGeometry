@@ -3,15 +3,15 @@
 
 #include <QAbstractListModel>
 
-class LineList;
+class PointList;
 
-class LineListModel : public QAbstractListModel
+class PointListModel : public QAbstractListModel
 {
     Q_OBJECT
 public:
-    explicit LineListModel(LineList& lines) noexcept;
+    explicit PointListModel(PointList& points) noexcept;
 
-    void setLines(LineList lines);
+    void setPoints(PointList points);
 
     // QAbstractItemModel
     int rowCount(const QModelIndex&) const final;
@@ -22,11 +22,11 @@ signals:
     void linesChanged();
 
 public slots:
-    void addLine(const QLine& line);
-    void addLines(const LineList& lines);
+    void addPoint(const QPoint& point);
+    void addPoints(const PointList& point);
 
 private:
-    LineList& lines;
+    PointList& points;
 };
 
 #endif // LINELISTMODEL_H

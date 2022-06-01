@@ -7,10 +7,10 @@
 
 // Custom
 #include "CustomGraphicsScene.h"
-#include "AddLineDialog.h"
+#include "AddPointDialog.h"
 
 // Utils
-#include "LineList.h"
+#include "PointList.h"
 
 // Qt
 #include <QGraphicsItem>
@@ -19,8 +19,8 @@
 
 struct MainWindowPrivate
 {
-    LineList lines;
-    LineListModel lineListModel{lines};
+    PointList lines;
+    PointListModel lineListModel{lines};
     CustomGraphicsScene scene{lines};
 };
 
@@ -34,9 +34,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->lineListView->setModel(&d->lineListModel);
     ui->graphicsView->setScene(&d->scene);
 
-    connect(this, &MainWindow::lineAdded, &d->lineListModel, &LineListModel::addLine);
+    connect(this, &MainWindow::pointAdded, &d->lineListModel, &PointListModel::addPoint);
 
-    connect(&d->lineListModel, &LineListModel::linesChanged, [this] () {
+    connect(&d->lineListModel, &PointListModel::linesChanged, [this] () {
         d->scene.reset();
     });
 }
@@ -47,10 +47,10 @@ MainWindow::~MainWindow() = default;
 
 void MainWindow::on_newLineBtn_clicked()
 {
-    static AddLineDialog dialog;
-    static QLine line;
-    if (dialog.exec(line) == QDialog::Accepted) {
-        emit lineAdded(line);
+    static AddPointDialog dialog;
+    static QPoint point;
+    if (dialog.exec(point) == QDialog::Accepted) {
+        emit pointAdded(point);
     }
 }
 
@@ -63,11 +63,11 @@ void MainWindow::on_loadLinesTxt_triggered()
         return;
     }
 
-    LineList newLines;
+    PointList newPoints;
     while (!fin.eof()) {
-        int x1, y1, x2, y2;
-        fin >> x1 >> y1 >> x2 >> y2;
-        newLines.add({x1, y1, x2, y2});
+        int x, y;
+        fin >> x >> y;
+        newPoints.add({x, y});
     }
-    d->lineListModel.setLines(std::move(newLines));
+    d->lineListModel.setPoints(std::move(newPoints));
 }

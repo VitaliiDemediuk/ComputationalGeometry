@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 // Custom
-#include "LineListModel.h"
+#include "PointListModel.h"
 
 // Qt
 #include <QMainWindow>
@@ -23,7 +23,7 @@ public:
     ~MainWindow();
 
 signals:
-    void lineAdded(QLine line);
+    void pointAdded(QPoint line);
 
 private slots:
     void on_newLineBtn_clicked();

@@ -5,7 +5,7 @@
 #include <limits>
 
 class QRect;
-class QLine;
+class QPoint;
 
 constexpr static int MAX_VALUE = std::numeric_limits<int>::max();
 constexpr static int MIN_VALUE = std::numeric_limits<int>::min();
@@ -28,20 +28,20 @@ struct Rect {
 };
 
 
-class LineList
+class PointList
 {
 
 public:
-    using LinesList = std::vector<QLine>;
-    using Iterator = LinesList::iterator;
-    using ConstIterator = LinesList::const_iterator;
+    using PointVector = std::vector<QPoint>;
+    using Iterator = PointVector::iterator;
+    using ConstIterator = PointVector::const_iterator;
 
-    const QLine& at(size_t index) const noexcept;
+    const QPoint& at(size_t index) const noexcept;
     const Rect& rect() const noexcept;
     size_t count() const noexcept;
 
-    void add(const QLine& line);
-    void add(const LineList& lines);
+    void add(const QPoint& point);
+    void add(const PointList& points);
 
     // iterators
     Iterator begin() noexcept;
@@ -50,13 +50,13 @@ public:
     ConstIterator end() const noexcept;
 private:
     void refreshRect() noexcept;
-    void refreshRect(const QLine& line) noexcept;
-    void refreshRect(const LineList& line) noexcept;
+    void refreshRect(const QPoint& point) noexcept;
+    void refreshRect(const PointList& points) noexcept;
 
     constexpr static int MAX_VALUE = std::numeric_limits<int>::max();
     constexpr static int MIN_VALUE = std::numeric_limits<int>::min();
 
-    LinesList fLines;
+    PointVector fPoints;
     Rect fRect;
 };
 

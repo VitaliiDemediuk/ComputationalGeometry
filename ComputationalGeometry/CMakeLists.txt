@@ -24,15 +24,15 @@ set(PROJECT_SOURCES
         CustomQt/CustomGraphicsView.cpp
         CustomQt/CustomGraphicsScene.h
         CustomQt/CustomGraphicsScene.cpp
-        CustomQt/LineListModel.h
-        CustomQt/LineListModel.cpp
+        CustomQt/PointListModel.h
+        CustomQt/PointListModel.cpp
 
-        Dialogs/AddLineDialog.h
-        Dialogs/AddLineDialog.cpp
-        Dialogs/AddLineDialog.ui
+        Dialogs/AddPointDialog.h
+        Dialogs/AddPointDialog.cpp
+        Dialogs/AddPointDialog.ui
 
-        Utils/LineList.h
-        Utils/LineList.cpp
+        Utils/PointList.h
+        Utils/PointList.cpp
 )
 
 include_directories(${PROJECT_SOURCE_DIR}/CustomQt)

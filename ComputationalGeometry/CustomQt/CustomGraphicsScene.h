@@ -3,7 +3,7 @@
 
 #include <QGraphicsScene>
 
-class LineList;
+class PointList;
 
 class CustomGraphicsScene : public QGraphicsScene
 {
@@ -11,13 +11,15 @@ class CustomGraphicsScene : public QGraphicsScene
     using This  = CustomGraphicsScene;
 public:
 
-    explicit CustomGraphicsScene(LineList& lines);
+    explicit CustomGraphicsScene(PointList& lines);
 
 public slots:
     void reset();
 
 private:
-    LineList& lines;
+    using Super::addLine;
+    void addLine(const QPoint& p1, const QPoint& p2, double scale);
+    PointList& points;
 };
 
 #endif // CUSTOMGRAPHICSSCENE_H
