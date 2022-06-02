@@ -37,6 +37,10 @@ public:
     using ConstIterator = PointVector::const_iterator;
 
     const QPoint& at(size_t index) const noexcept;
+    size_t prevIndex(size_t index) const noexcept;
+    const QPoint& prev(size_t index) const noexcept;
+    size_t nextIndex(size_t index) const noexcept;
+    const QPoint& next(size_t index) const noexcept;
     const Rect& rect() const noexcept;
     size_t count() const noexcept;
 

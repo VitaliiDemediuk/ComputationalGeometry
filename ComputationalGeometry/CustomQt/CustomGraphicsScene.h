@@ -18,7 +18,9 @@ public slots:
 
 private:
     using Super::addLine;
-    void addLine(const QPoint& p1, const QPoint& p2, double scale);
+    QGraphicsLineItem* addLine(const QPointF& p1, const QPointF& p2, double scale);
+    QGraphicsLineItem* addLine(const QLineF& l, double scale);
+    std::vector<QLineF> getVisibleSegment(const QPointF& p) const;
     PointList& points;
 };
 

@@ -44,6 +44,26 @@ const QPoint& PointList::at(size_t index) const noexcept
     return fPoints[index];
 }
 
+size_t PointList::prevIndex(size_t index) const noexcept
+{
+    return index == 0 ? count() - 1 : index - 1;
+}
+
+const QPoint& PointList::prev(size_t index) const noexcept
+{
+    return at(prevIndex(index));
+}
+
+size_t PointList::nextIndex(size_t index) const noexcept
+{
+    return (index + 1) % count();
+}
+
+const QPoint& PointList::next(size_t index) const noexcept
+{
+    return at(nextIndex(index));
+}
+
 const Rect& PointList::rect() const noexcept
 {
     return fRect;

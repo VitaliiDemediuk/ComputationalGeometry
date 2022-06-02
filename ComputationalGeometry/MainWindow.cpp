@@ -19,9 +19,9 @@
 
 struct MainWindowPrivate
 {
-    PointList lines;
-    PointListModel lineListModel{lines};
-    CustomGraphicsScene scene{lines};
+    PointList points;
+    PointListModel pointListModel{points};
+    CustomGraphicsScene scene{points};
 };
 
 MainWindow::MainWindow(QWidget *parent)
@@ -31,12 +31,12 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    ui->lineListView->setModel(&d->lineListModel);
+    ui->lineListView->setModel(&d->pointListModel);
     ui->graphicsView->setScene(&d->scene);
 
-    connect(this, &MainWindow::pointAdded, &d->lineListModel, &PointListModel::addPoint);
+    connect(this, &MainWindow::pointAdded, &d->pointListModel, &PointListModel::addPoint);
 
-    connect(&d->lineListModel, &PointListModel::linesChanged, [this] () {
+    connect(&d->pointListModel, &PointListModel::linesChanged, [this] () {
         d->scene.reset();
     });
 }
@@ -69,5 +69,5 @@ void MainWindow::on_loadLinesTxt_triggered()
         fin >> x >> y;
         newPoints.add({x, y});
     }
-    d->lineListModel.setPoints(std::move(newPoints));
+    d->pointListModel.setPoints(std::move(newPoints));
 }
