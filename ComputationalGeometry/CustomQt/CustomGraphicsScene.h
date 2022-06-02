@@ -14,6 +14,7 @@ public:
     explicit CustomGraphicsScene(PointList& lines);
 
 public slots:
+    void reset(std::optional<QPointF> fromPoint);
     void reset();
 
 private:
@@ -21,6 +22,7 @@ private:
     QGraphicsLineItem* addLine(const QPointF& p1, const QPointF& p2, double scale);
     QGraphicsLineItem* addLine(const QLineF& l, double scale);
     std::vector<QLineF> getVisibleSegment(const QPointF& p) const;
+    std::optional<QPointF> fFromPoint;
     PointList& points;
 };
 

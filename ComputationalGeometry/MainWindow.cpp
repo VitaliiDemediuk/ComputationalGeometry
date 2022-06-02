@@ -31,6 +31,10 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    static const QIntValidator validator;
+    ui->pointXEdit->setValidator(&validator);
+    ui->pointYEdit->setValidator(&validator);
+
     ui->lineListView->setModel(&d->pointListModel);
     ui->graphicsView->setScene(&d->scene);
 
@@ -39,6 +43,19 @@ MainWindow::MainWindow(QWidget *parent)
     connect(&d->pointListModel, &PointListModel::linesChanged, [this] () {
         d->scene.reset();
     });
+
+    connect(ui->pointYEdit, &QLineEdit::textEdited, [this] () {
+        d->scene.reset(getFromPoint());
+    });
+}
+
+std::optional<QPointF> MainWindow::getFromPoint()
+{
+    const auto textX = ui->pointXEdit->text();
+    const auto textY = ui->pointYEdit->text();
+    if (textX.isEmpty() || textY.isEmpty())
+        return std::nullopt;
+    return QPoint{textX.toInt(), textY.toInt()};
 }
 
 MainWindow::~MainWindow() = default;

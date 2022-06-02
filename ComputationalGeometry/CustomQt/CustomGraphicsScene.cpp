@@ -187,6 +187,12 @@ std::vector<QLineF> CustomGraphicsScene::getVisibleSegment(const QPointF& q) con
     return visibleSegment;
 }
 
+void CustomGraphicsScene::reset(std::optional<QPointF> fromPoint)
+{
+    fFromPoint = fromPoint;
+    reset();
+}
+
 void CustomGraphicsScene::reset()
 {
     clear();
@@ -200,7 +206,16 @@ void CustomGraphicsScene::reset()
     constexpr static int BORDERS = 50;
     const auto minViewSize = std::min(viewSize.width() - BORDERS, viewSize.height() - BORDERS);
 
-    const auto rect = points.rect();
+    const auto rect = [&] () {
+        auto r = points.rect();
+        if (fFromPoint) {
+            r.maxX = std::max<double>(r.maxX, fFromPoint->x());
+            r.maxY = std::max<double>(r.maxY, fFromPoint->y());
+            r.minX = std::min<double>(r.minX, fFromPoint->x());
+            r.minY = std::min<double>(r.maxY, fFromPoint->y());
+        }
+        return r;
+    }();
     const auto maxRectSize = std::max(rect.width(), rect.height());
 
     const double scale = static_cast<double>(minViewSize) / maxRectSize;
@@ -211,10 +226,13 @@ void CustomGraphicsScene::reset()
             addLine(points.at(i), points.at((i+1) % pointsCount), scale);
         }
     }
-    const auto visibleSegment = getVisibleSegment({0, 0});
-    for (const auto& seg : visibleSegment) {
-        auto* lineItem = addLine(seg, scale);
-        lineItem->setPen({Qt::red});
+
+    if (fFromPoint) {
+        const auto visibleSegment = getVisibleSegment(*fFromPoint);
+        for (const auto& seg : visibleSegment) {
+            auto* lineItem = addLine(seg, scale);
+            lineItem->setPen({Qt::red});
+        }
     }
 
 }
