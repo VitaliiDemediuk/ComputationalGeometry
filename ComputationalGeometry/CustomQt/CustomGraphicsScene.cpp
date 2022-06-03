@@ -113,7 +113,7 @@ QLineF cutSeg(const QLineF& l, const QPointF& q, double angle)
     }
     const auto cutLine = QLineF{getPolarAngle(ofsSeg.p1()) < angle ? interPoint.value() : ofsSeg.p1(),
                                 getPolarAngle(ofsSeg.p2()) < angle ? interPoint.value() : ofsSeg.p2()};
-    return {cutLine.p1() + q, cutLine.p2() + q};
+    return {cutLine.p1(), cutLine.p2()};
 }
 
 }
@@ -177,8 +177,8 @@ std::vector<QLineF> CustomGraphicsScene::getVisibleSegment(const QPointF& q) con
                 visitedSegment[l] = state.emplace(l);
             }
         };
-        processLine({p.index, points.nextIndex(p.index)});
         processLine({p.index, points.prevIndex(p.index)});
+        processLine({p.index, points.nextIndex(p.index)});
 
         if (const auto firstIt = state.begin(); firstIt != state.end() and firstIt != beginFirstIt) {
             visibleSegment.emplace_back(points.at(firstIt->idx1), points.at(firstIt->idx2));
@@ -231,7 +231,11 @@ void CustomGraphicsScene::reset()
         const auto visibleSegment = getVisibleSegment(*fFromPoint);
         for (const auto& seg : visibleSegment) {
             auto* lineItem = addLine(seg, scale);
-            lineItem->setPen({Qt::red});
+            lineItem->setPen({Qt::red, 3});
+            auto* firstDashLine  = addLine(*fFromPoint, seg.p1(), scale);
+            firstDashLine->setPen({Qt::red, 3, Qt::DashLine});
+            auto* secondDashLine = addLine(*fFromPoint, seg.p2(), scale);
+            secondDashLine->setPen({Qt::red, 3, Qt::DashLine});
         }
     }
 

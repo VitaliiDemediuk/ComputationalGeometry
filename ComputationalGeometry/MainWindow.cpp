@@ -44,6 +44,9 @@ MainWindow::MainWindow(QWidget *parent)
         d->scene.reset();
     });
 
+    connect(ui->pointXEdit, &QLineEdit::textEdited, [this] () {
+        d->scene.reset(getFromPoint());
+    });
     connect(ui->pointYEdit, &QLineEdit::textEdited, [this] () {
         d->scene.reset(getFromPoint());
     });
